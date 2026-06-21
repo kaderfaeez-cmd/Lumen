@@ -1,0 +1,148 @@
+@import "tailwindcss";
+
+/* ----------------------------------------------------------------------------
+   LUMEN — design tokens
+   A restrained, cinematic dark system. One near-black base, layered surfaces,
+   a single warm-platinum accent used only for hairlines and small signals.
+---------------------------------------------------------------------------- */
+@theme {
+  /* Surfaces — cool near-blacks, layered for depth without borders shouting */
+  --color-base: #060609;
+  --color-base-2: #0a0a0f;
+  --color-surface: #101015;
+  --color-hairline: rgba(255, 255, 255, 0.08);
+  --color-hairline-strong: rgba(255, 255, 255, 0.14);
+
+  /* Ink — warm off-white, stepped down by opacity for hierarchy */
+  --color-ink: #f3f1ec;
+  --color-ink-muted: rgba(243, 241, 236, 0.62);
+  --color-ink-faint: rgba(243, 241, 236, 0.40);
+  --color-ink-ghost: rgba(243, 241, 236, 0.24);
+
+  /* Accent — platinum / warm champagne, used sparingly */
+  --color-accent: #cbb6a0;
+  --color-accent-dim: rgba(203, 182, 160, 0.5);
+
+  /* Type */
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* Motion */
+  --ease-luxe: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ----------------------------------------------------------------------------
+   Base
+---------------------------------------------------------------------------- */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-base);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+/* A faint cinematic vignette + film grain so the void never feels flat */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: radial-gradient(
+    120% 100% at 50% 0%,
+    transparent 55%,
+    rgba(0, 0, 0, 0.55) 100%
+  );
+}
+
+::selection {
+  background: var(--color-accent-dim);
+  color: var(--color-base);
+}
+
+/* Thin, premium scrollbar */
+::-webkit-scrollbar {
+  width: 9px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-base);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+/* ----------------------------------------------------------------------------
+   Utilities — the few bespoke ones the system leans on
+---------------------------------------------------------------------------- */
+@layer utilities {
+  /* The micro-label used above section headings */
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--color-ink-faint);
+    font-weight: 500;
+  }
+
+  /* Hairline divider */
+  .hairline {
+    border-color: var(--color-hairline);
+  }
+
+  /* Reveal-on-scroll baseline (JS toggles .is-in) */
+  .reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition:
+      opacity 1.1s var(--ease-luxe),
+      transform 1.1s var(--ease-luxe);
+    will-change: opacity, transform;
+  }
+  .reveal.is-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Fine grain texture overlay */
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+}
