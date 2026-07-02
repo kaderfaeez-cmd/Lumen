@@ -8,6 +8,10 @@ An AI writing studio that turns the way you actually think — fragments,
 half-sentences, arrows — into finished documents, emails and posts.
 Built as a single, art-directed launch experience: dark, cinematic, restrained.
 
+**[▸ Live demo](https://lumen-lilac-seven.vercel.app)**
+
+<sub>The 3D hero and UI are fully live; the notes→polished tool needs an `ANTHROPIC_API_KEY` to generate (see [Run it](#run-it)).</sub>
+
 <br />
 
 ![Lumen hero](preview/hero.png)
